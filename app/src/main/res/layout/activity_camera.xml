@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <Button
+        android:text="Calculate Peak Angle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_capture"/>
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_title_pitch" />
+
+    <TextView
+        android:text="Aim Phone at the Top of the Object then click 'Calculate Peak Angle'"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_calculate"
+        android:textSize="24sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_weight="0.96"
+        android:id="@+id/my_relative_layout">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.98"
+            android:id="@+id/frame_layout">
+
+            <SurfaceView
+                android:layout_width="match_parent"
+                android:id="@+id/camera_view"
+                android:layout_height="match_parent"
+                android:layout_weight="0.99" />
+        </FrameLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/white"
+        android:id="@+id/separator"
+        android:elevation="0dp"
+        android:forceHasOverlappingRendering="false" />
+
+    <Button
+        android:text="Return"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_return" />
+
+</LinearLayout>
