@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private String anglebase = "";
     private String answer = "";
 
+    private int ready = 0;
+
     int ang;
 
     float[] gData = new float[3];           // Gravity or accelerometer
@@ -95,9 +97,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mGSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
         mASensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mMSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        mSensorManager.registerListener(this, mGSensor, SensorManager.SENSOR_DELAY_GAME);
-        mSensorManager.registerListener(this, mASensor, SensorManager.SENSOR_DELAY_GAME);
-        mSensorManager.registerListener(this, mMSensor, SensorManager.SENSOR_DELAY_GAME);
+        mSensorManager.registerListener(this, mGSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mASensor, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mMSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
 
         //add the camera feed to surface view
@@ -127,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void changeToCameraView() {
+        ready = 1;
         height = (String) ((EditText) findViewById(R.id.text_height_edit)).getText().toString();
         anglepeak = (String) ((TextView) findViewById(R.id.text_angle_top)).getText().toString();
         anglebase = (String) ((TextView) findViewById(R.id.text_angle_base)).getText().toString();
@@ -135,11 +138,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void changeToMainView() {
-
+        ready = 0;
         mSensorManager.unregisterListener(this, mGSensor);
         mSensorManager.unregisterListener(this, mASensor);
         mSensorManager.unregisterListener(this, mMSensor);
-        setContentView(R.layout.activity_main);
+        mSensorManager = null;
         setupMainView();
     }
 
@@ -152,7 +155,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
         ((TextView) findViewById(R.id.text_calculate)).setText("Aim Phone at the Bottom of the Object then click 'Calculate Base Angle'");
-
     }
 
     public void captureBaseAngle() {
@@ -164,11 +166,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
         ((TextView) findViewById(R.id.text_calculate)).setText("Click either button to return.");
-
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+        if(ready == 0)
+            return;
+
         float[] data;
         switch (event.sensor.getType()) {
             case Sensor.TYPE_GRAVITY:
